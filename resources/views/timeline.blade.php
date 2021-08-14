@@ -3,7 +3,8 @@
         <div class="grid grid-cols-12 gap-6">
             <div class="col-span-7">
                 <div class="border rounded-xl p-5 mb-5">
-                    <form method="POST">
+                    <form action="{{ route('status.store') }}" method="POST">
+                        @csrf
                         <div class="flex ">
                             <div class="flex-shrink-0 mr-3">
                                 <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/150"
