@@ -57,4 +57,10 @@ class User extends Authenticatable
         if (Auth::user()->id == $user->id) return false;
         return $this->follows()->save($user);
     }
+
+    public function timeline()
+    {
+        $following = $this->follows->pluck('id');
+        return Status::whereIn('user_id', $following)->orWhere('user_id', Auth::user()->id)->latest()->get();
+    }
 }

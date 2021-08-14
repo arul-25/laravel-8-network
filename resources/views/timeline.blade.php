@@ -29,7 +29,6 @@
             <div class="col-span-5">
                 <div class="border p-5 rounded-xl space-y-5">
                     <h1 class="font-semibold mb-5">Recently follows</h1>
-                    @dump(Auth::user()->id)
                     @foreach (Auth::user()->follows()->limit(5)->get()
     as $user)
                         <div class="flex items-center">
