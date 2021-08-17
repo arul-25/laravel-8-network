@@ -47,6 +47,12 @@ class User extends Authenticatable
         return $this->hasMany(Status::class);
     }
 
+    public function gravatar($size = 100)
+    {
+        $default = "mm";
+        return $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . "?d=" . urlencode($default) . "&s=" . $size;
+    }
+
     public function follows()
     {
         return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')->withTimestamps();

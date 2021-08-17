@@ -7,7 +7,7 @@
                         @csrf
                         <div class="flex ">
                             <div class="flex-shrink-0 mr-3">
-                                <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/150"
+                                <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->gravatar() }}"
                                     alt="{{ Auth::user()->name }}">
                             </div>
                             <div class="w-full">
@@ -32,7 +32,7 @@
                             <x-card>
                                 <div class="flex b">
                                     <div class="flex-shrink-0 mr-3">
-                                        <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/150"
+                                        <img class="w-10 h-10 rounded-full" src="{{ $status->user->gravatar() }}"
                                             alt="{{ $status->user->name }}">
                                     </div>
                                     <div>
@@ -52,15 +52,16 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-span-5">
                 <x-card>
-                    <h1 class="font-semibold mb-5">Recently follows</h1>
+                    <h1 class="font-semibold mb-5 ">Recently follows</h1>
                     @foreach (Auth::user()->follows()->limit(5)->get()
     as $user)
-                        <div class="flex items-center">
+                        <div class="flex items-center space-y-5">
                             <div class="flex-shrink-0 mr-3">
-                                <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/150"
-                                    alt="{{ $status->user->name }}">
+                                <img class="w-10 h-10 rounded-full" src="{{ $user->gravatar() }}"
+                                    alt="{{ $user->name }}">
                             </div>
                             <div>
                                 <div class="font-semibold">
