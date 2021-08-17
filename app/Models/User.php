@@ -76,4 +76,14 @@ class User extends Authenticatable
         $following = $this->follows->pluck('id');
         return Status::whereIn('user_id', $following)->orWhere('user_id', Auth::user()->id)->latest()->get();
     }
+
+    public function hasFollow(User $user)
+    {
+        return $this->follows()->where('following_user_id', $user->id)->exists();
+    }
+
+    public function unfollow(User $user)
+    {
+        return $this->follows()->detach($user);
+    }
 }

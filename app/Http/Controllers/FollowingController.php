@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class FollowingController extends Controller
 {
 
-    public function __invoke(User $user, $following)
+    public function index(User $user, $following)
     {
         /* if ($following == 'following') {
             $follows = $user->follows;
@@ -19,6 +20,7 @@ class FollowingController extends Controller
         } */
 
         // $follows = $following == 'following' ? $user->follows : $user->followers;
+
         if ($following != 'follower' && $following != 'following') {
             return redirect(route('profile', $user->username));
         }
@@ -44,4 +46,16 @@ class FollowingController extends Controller
     //         'user' => $user
     //     ]);
     // }
+
+    public function store(Request $request, User $user)
+    {
+        /*  if (Auth::user()->hasFollow($user)) {
+            Auth::user()->unfollow($user);
+        } else {
+            Auth::user()->follow($user);
+        } */
+
+        Auth::user()->hasFollow($user) ? Auth::user()->unfollow($user) : Auth::user()->follow($user);
+        return back()->with("success", 'You are follow the user');
+    }
 }
