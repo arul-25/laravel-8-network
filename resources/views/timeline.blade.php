@@ -28,52 +28,20 @@
                 </div>
                 <div class="space-y-6">
                     <div class="space-y-5">
-                        @foreach ($statuses as $status)
-                            <x-card>
-                                <div class="flex b">
-                                    <div class="flex-shrink-0 mr-3">
-                                        <img class="w-10 h-10 rounded-full" src="{{ $status->user->gravatar() }}"
-                                            alt="{{ $status->user->name }}">
-                                    </div>
-                                    <div>
-                                        <div class="font-semibold">
-                                            {{ $status->user->name }}
-                                        </div>
-                                        <div class="leading-relaxed">
-                                            {{ $status->body }}
-                                        </div>
-                                        <div class="text-sm text-gray-600">
-                                            {{ $status->created_at->diffForHumans() }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </x-card>
-                        @endforeach
+                        <x-status :statuses="$statuses">
+
+                        </x-status>
                     </div>
                 </div>
             </div>
 
             <div class="col-span-5">
+
                 <x-card>
                     <h1 class="font-semibold mb-5 ">Recently follows</h1>
-                    @foreach (Auth::user()->follows()->limit(5)->get()
-    as $user)
-                        <div class="flex items-center space-y-5">
-                            <div class="flex-shrink-0 mr-3">
-                                <img class="w-10 h-10 rounded-full" src="{{ $user->gravatar() }}"
-                                    alt="{{ $user->name }}">
-                            </div>
-                            <div>
-                                <div class="font-semibold">
-                                    {{ $user->name }}
-                                </div>
-
-                                <div class="text-sm text-gray-600">
-                                    {{ $user->pivot->created_at->diffForHumans() }}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="space-y-5">
+                        <x-following :users="Auth::user()->follows()->limit(5)->get()"></x-following>
+                    </div>
                 </x-card>
             </div>
         </div>
