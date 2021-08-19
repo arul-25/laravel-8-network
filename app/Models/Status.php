@@ -12,6 +12,8 @@ class Status extends Model
 
     protected $fillable = ['body', 'identifier'];
 
+    protected $with = ['user'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

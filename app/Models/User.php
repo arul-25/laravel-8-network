@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Following;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Following;
 
     /**
      * The attributes that are mass assignable.
@@ -53,37 +54,10 @@ class User extends Authenticatable
         $default = "mm";
         return $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . "?d=" . urlencode($default) . "&s=" . $size;
     }
-
-    public function follows()
-    {
-        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')->withTimestamps();
-    }
-
-    public function followers()
-    {
-        return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')->withTimestamps();
-    }
-
-
-    public function follow(User $user)
-    {
-        if (Auth::user()->id == $user->id) return false;
-        return $this->follows()->save($user);
-    }
-
     public function timeline()
     {
         $following = $this->follows->pluck('id');
+        // return Status::with('user')->whereIn('user_id', $following)->orWhere('user_id', Auth::user()->id)->latest()->get();
         return Status::whereIn('user_id', $following)->orWhere('user_id', Auth::user()->id)->latest()->get();
-    }
-
-    public function hasFollow(User $user)
-    {
-        return $this->follows()->where('following_user_id', $user->id)->exists();
-    }
-
-    public function unfollow(User $user)
-    {
-        return $this->follows()->detach($user);
     }
 }
